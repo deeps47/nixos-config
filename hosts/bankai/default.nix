@@ -98,7 +98,13 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
-};
+  };
+
+  # Fonts
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" "Iosevka" ]; })
+  ];
+
   # TODO: Set your hostname
   networking.hostName = "bankai";
 
