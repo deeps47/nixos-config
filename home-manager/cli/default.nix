@@ -2,7 +2,7 @@
 
   imports = [ ./git ];
 
-  home.packages = with pkgs; [
+  home.packages = with pkgs; [ 
   kitty
   foot
   rofi-wayland
@@ -12,6 +12,7 @@
   tree
   neofetch
   vim
+  hyprland-autoname-workspaces
   ];
 
 }
