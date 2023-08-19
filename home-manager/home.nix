@@ -15,6 +15,7 @@
     ./hyprland
     ./cli
     ./gui
+    ./services
   ];
 
   nixpkgs = {
