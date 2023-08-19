@@ -20,6 +20,10 @@
     hyprland.url = "github:hyprwm/Hyprland";
     hyprland.inputs.nixpkgs.follows = "nixpkgs";
 
+    # secure-boot on nixos
+    lanzaboote.url = "github:nix-community/lanzaboote";
+    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
+
     xdg-portal-hyprland.url = "github:hyprwm/xdg-desktop-portal-hyprland";
     xdg-portal-hyprland.inputs.nixpkgs.follows = "nixpkgs";
 

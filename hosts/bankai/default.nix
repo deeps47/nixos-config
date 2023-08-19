@@ -10,6 +10,8 @@
     # Or modules from other flakes (such as nixos-hardware):
     # inputs.hardware.nixosModules.common-cpu-amd
     # inputs.hardware.nixosModules.common-ssd
+    
+      inputs.lanzaboote.nixosModules.lanzaboote
 
     # You can also split up your configuration and import pieces of it here:
     # ./users.nix
@@ -134,11 +136,24 @@
   };
 
 
+  #lanzaboote / secure-boot
+
+  boot.loader.systemd-boot.enable = lib.mkForce false;
+
+  boot = {
+    bootspec.enable = true;
+    lanzaboote = {
+      enable = true;
+      pkiBundle = "/etc/secureboot";
+    };
+  };
+
+
   # TODO: Set your hostname
   networking.hostName = "bankai";
 
   # TODO: This is just an example, be sure to use whatever bootloader you prefer
-  boot.loader.systemd-boot.enable = true;
+  # boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
