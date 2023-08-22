@@ -41,6 +41,16 @@
     bind = $mainMod SHIFT, up, movewindow,u
     bind = $mainMod SHIFT, down, movewindow,d
 
+    # Brightness keybinds
+    binde = , XF86MonBrightnessUp,     exec, brightness set 10%+
+    binde = , XF86MonBrightnessDown,   exec, brightness set 10%-
+
+    # Audio Keybinds
+    binde = , xf86audioraisevolume, exec, volume -i 5
+    binde = , xf86audiolowervolume, exec, volume -d 5
+    binde = , XF86AudioMute, exec, volume -t
+
+
   '';
  
  
