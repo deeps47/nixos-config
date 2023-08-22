@@ -1,8 +1,8 @@
 { pkgs, ... }: {
 
-  imports = [ ./git ];
+  imports = [ ./git ./shell ];
 
-  home.packages = with pkgs; [ 
+  home.packages = with pkgs; [
   kitty
   foot
   rofi-wayland

@@ -148,6 +148,10 @@
     };
   };
 
+  # Enable zsh system-wide
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
+  environment.shells = with pkgs; [ zsh ];
 
   # TODO: Set your hostname
   networking.hostName = "bankai";
