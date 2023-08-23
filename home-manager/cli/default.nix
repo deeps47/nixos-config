@@ -1,9 +1,9 @@
 { pkgs, ... }: {
 
-  imports = [ ./git ./shell ];
+  imports = [ ./git ./shell ./kitty ];
 
   home.packages = with pkgs; [
-  kitty
+ 
   foot
   rofi-wayland
   wlr-randr
