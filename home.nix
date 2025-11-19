@@ -41,6 +41,7 @@ in
     nitch
     rofi
     pcmanfm
+    gcc
     (pkgs.writeShellApplication {
       name = "ns";
       runtimeInputs = with pkgs; [
