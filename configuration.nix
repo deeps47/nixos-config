@@ -15,8 +15,6 @@
   time.timeZone = "Asia/Kolkata";
   i18n.defaultLocale = "en_IN";
 
-  services.getty.autologinUser = "goku";
-
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;

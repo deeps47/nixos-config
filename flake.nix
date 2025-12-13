@@ -18,9 +18,11 @@
   outputs = inputs@{ self, nixpkgs, home-manager, lanzaboote, ... }: {
     nixosConfigurations.nixos-btw = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+      specialArgs = { inherit inputs; };
       modules = [
         ./configuration.nix 
         ./lanzaboote.nix
+        ./desktop-services.nix
         home-manager.nixosModules.home-manager
         {
           home-manager = {

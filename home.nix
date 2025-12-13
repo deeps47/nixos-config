@@ -42,6 +42,7 @@ in
     rofi
     pcmanfm
     gcc
+    xdg-utils
     (pkgs.writeShellApplication {
       name = "ns";
       runtimeInputs = with pkgs; [
