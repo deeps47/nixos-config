@@ -14,6 +14,7 @@ in
 {
   imports = [
     ./modules/theme.nix
+    ./git.nix
   ];
 
   home.username = "goku";
