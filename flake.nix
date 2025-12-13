@@ -22,6 +22,7 @@
       modules = [
         ./configuration.nix 
         ./lanzaboote.nix
+        ./virtualization.nix
         ./desktop-services.nix
         home-manager.nixosModules.home-manager
         {
