@@ -20,10 +20,11 @@
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
       modules = [
-        ./configuration.nix 
+        ./configuration.nix
         ./lanzaboote.nix
         ./virtualization.nix
         ./desktop-services.nix
+        ./sound.nix
         home-manager.nixosModules.home-manager
         {
           home-manager = {

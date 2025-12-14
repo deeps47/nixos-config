@@ -19,6 +19,8 @@
         "custom/sep",
         "network",
         "custom/sep",
+        "pulseaudio",
+        "custom/sep",
         "cpu",
         "custom/sep",
         "memory",
@@ -53,6 +55,21 @@
     "cpu": {
         "format": "CPU: {usage}%",
         "tooltip": false
+    },
+    "pulseaudio": {
+    "format": "{volume}% {icon}",
+    "format-bluetooth": "{volume}% {icon}",
+    "format-muted": "",
+    "format-icons": {
+        "headphone": "",
+        "hands-free": "",
+        "headset": "",
+        "default": ["", ""]
+    },
+    "scroll-step": 1,
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-click-right" : "pwvucontrol",
+    "ignored-sinks": ["Easy Effects Sink"]
     },
     "memory": {
         "format": "Mem: {used}GiB"

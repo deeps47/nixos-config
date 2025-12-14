@@ -51,6 +51,7 @@ button:hover {
 #clock,
 #custom-sep,
 #battery,
+#pulseaudio,
 #cpu,
 #memory,
 #disk,
@@ -80,6 +81,11 @@ button:hover {
 }
 
 #memory {
+    color: @mag;
+    border-bottom: 4px solid @mag;
+}
+
+#pulseaudio {
     color: @mag;
     border-bottom: 4px solid @mag;
 }
