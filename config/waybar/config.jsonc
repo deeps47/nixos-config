@@ -92,8 +92,15 @@
         "format-icons": ["", "", "", "", ""]
     },
     "network": {
-        "format": "Online",
-        "format-disconnected": "Disconnected ⚠"
+    "on-click" : "nmgui",
+    "on-click-right" : "nm-connection-editor",
+    "format-alt-click" : "click-middle",
+    "tooltip-format" : "{essid} ({signalStrength}%)",
+    "format-alt" : "{ifname}: {ipaddr}/{cidr}",
+    "format-disconnected" : "Disconnected  ",
+    "format-ethernet" : "Online 󰌗",
+    "format-linked" : "{ifname} (No IP) 󰌗 ",
+    "format-wifi" : " "
     },
     "custom/sep": {
         "format" : "|",

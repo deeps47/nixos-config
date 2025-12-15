@@ -52,6 +52,8 @@
     waybar
     git
     hyprpaper
+    networkmanagerapplet
+    nmgui
   ];
 
   fonts.packages = with pkgs; [
