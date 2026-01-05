@@ -25,6 +25,7 @@
         ./virtualization.nix
         ./desktop-services.nix
         ./sound.nix
+        ./udev-rules.nix
         home-manager.nixosModules.home-manager
         {
           home-manager = {
