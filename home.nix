@@ -9,12 +9,14 @@ let
     rofi = "rofi";
     foot = "foot";
     waybar = "waybar";
+    noctalia = "noctalia";
   };
 in
 {
   imports = [
     ./modules/theme.nix
     ./git.nix
+    ./noctaliahm.nix
   ];
 
   home.username = "goku";
@@ -44,6 +46,7 @@ in
     pcmanfm
     gcc
     xdg-utils
+    quickshell
     (pkgs.writeShellApplication {
       name = "ns";
       runtimeInputs = with pkgs; [
