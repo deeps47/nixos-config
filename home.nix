@@ -46,6 +46,8 @@ in
     pcmanfm
     gcc
     xdg-utils
+    wl-clipboard
+    cliphist
     quickshell
     wtype
     brave

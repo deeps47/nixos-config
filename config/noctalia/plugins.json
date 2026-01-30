@@ -1,0 +1,21 @@
+{
+    "sources": [
+        {
+            "enabled": true,
+            "name": "Noctalia Plugins",
+            "url": "https://github.com/noctalia-dev/noctalia-plugins"
+        },
+        {
+            "enabled": true,
+            "name": "Custom Official Repo",
+            "url": "https://github.com/deeps47/noctalia-plugins"
+        }
+    ],
+    "states": {
+        "dd8e1f:clipper": {
+            "enabled": true,
+            "sourceUrl": "https://github.com/deeps47/noctalia-plugins"
+        }
+    },
+    "version": 1
+}
