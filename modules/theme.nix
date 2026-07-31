@@ -2,7 +2,7 @@
 
 {
   home.packages = with pkgs; [
-    tokyonight-gtk-theme
+    adw-gtk3
     papirus-icon-theme
     bibata-cursors
     adwaita-qt
@@ -12,8 +12,8 @@
     enable = true;
 
     theme = {
-      name = "Tokyonight-Dark";
-      package = pkgs.tokyonight-gtk-theme;
+      name = "adw-gtk3-dark";
+      package = pkgs.adw-gtk3;
     };
 
     iconTheme = {
@@ -33,7 +33,7 @@
 
   qt = {
     enable = true;
-    platformTheme.name = "gtk";
+    platformTheme.name = "gtk3";
     style = {
       name = "adwaita-dark";
       package = pkgs.adwaita-qt;
@@ -42,7 +42,7 @@
 
   dconf.settings."org/gnome/desktop/interface" = {
     color-scheme = "prefer-dark";
-    gtk-theme = "Tokyonight-Dark";
+    gtk-theme = "adw-gtk3-dark";
     icon-theme = "Papirus-Dark";
     cursor-theme = "Bibata-Modern-Classic";
     cursor-size = 24;
@@ -79,3 +79,4 @@
     Inherits=Bibata-Modern-Classic
   '';
 }
+
