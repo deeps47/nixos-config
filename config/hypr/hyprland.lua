@@ -29,8 +29,8 @@ hl.monitor({
 -- Set programs that you use
 local terminal    = "foot"
 local fileManager = "thunar"
-local menu        = "noctalia-shell ipc call launcher toggle"
-local clipboard   = "noctalia-shell ipc call plugin:clipper toggle"
+local menu        = "noctalia msg panel-toggle launcher"
+local clipboard   = "noctalia msg panel-toggle clipboard"
 
 
 -------------------
@@ -45,7 +45,7 @@ local clipboard   = "noctalia-shell ipc call plugin:clipper toggle"
 hl.on("hyprland.start", function()
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
     hl.exec_cmd("dbus-update-activation-environment --systemd --all")
-    hl.exec_cmd("noctalia-shell &")
+    hl.exec_cmd("noctalia &")
     hl.exec_cmd("sleep 5 && openrgb --profile $HOME/.config/OpenRGB/white.orp")
 end)
 
@@ -124,12 +124,15 @@ hl.config({
 
 hl.layer_rule({
     name         = "noctalia",
-    match        = { namespace = "^(noctalia-background-.*)$" },
+    match        = { namespace = "^noctalia-(bar-.+|notification|settings|dock|panel|attached-panel|osd)$" },
     blur         = true,
     blur_popups  = true,
     ignore_alpha = 0.5,
 })
 
+hl.window_rule({
+    match = { title = "^Noctalia Settings$" },
+})
 
 -- Default curves and animations, see https://wiki.hypr.land/Configuring/Advanced-and-Cool/Animations/
 hl.curve("easeOutQuint", { type = "bezier", points = { { 0.23, 1 }, { 0.32, 1 } } })
@@ -350,3 +353,6 @@ hl.window_rule({ match = { title = "^(.*is sharing (your screen|a window)\\.)$" 
 
 -- This loads Noctalia-generated Hyprland colors.
 dofile("/home/goku/.config/hypr/noctalia/noctalia-colors.lua")
+
+-- For Noctalia Color templates
+require("noctalia").apply_theme()
