@@ -1,5 +1,5 @@
 {
-  description = "Isolated environment for CTF and Gaming tools";
+  description = "Isolated environment for CTF";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -14,10 +14,44 @@
           config.allowUnfree = true;
         };
 
+        fhs = pkgs.buildFHSEnv {
+          name = "ctf-fhs";
+
+          targetPkgs = pkgs: with pkgs; [
+            gcc
+            glibc
+            gdb
+            patchelf
+            python3
+            file
+            binutils
+            ltrace
+            strace
+          ];
+
+          multiPkgs = pkgs: with pkgs; [
+            ghidra
+            burpsuite
+            firefox
+            neovim
+            git
+            tmux
+            radare2
+            binwalk
+            nmap
+            sqlmap
+            gobuster
+            starship
+          ];
+
+          runScript = "bash";
+        };
+
         ctf-shell = pkgs.writeShellScriptBin "ctf-shell" ''
           exec ${./scripts/ctf-shell.sh} \
             ${./ctf-aliases.sh} \
             ${./ctf-nvim-init.lua} \
+            ${fhs}/bin/ctf-fhs \
             "$@"
         '';
 
@@ -33,28 +67,7 @@
         devShells.default = pkgs.mkShell {
           name = "ctf-env";
 
-          packages = with pkgs; [
-            bashInteractive
-            bash-completion
-            starship
-
-            burpsuite
-            nmap
-            sqlmap
-            gobuster
-
-            ghidra
-            radare2
-            binwalk
-            file
-            binutils
-
-            firefox
-            git
-            tmux
-            neovim
-            python3
-
+          packages = [
             ctf-shell
             pwn-env
             pwn-build
@@ -64,9 +77,6 @@
             export CTF_BASH_COMPLETION="${pkgs.bash-completion}/share/bash-completion/bash_completion"
             exec ctf-shell
           '';
-
         };
-      }
-    );
+      });
 }
-

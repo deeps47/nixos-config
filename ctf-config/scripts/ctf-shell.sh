@@ -18,14 +18,11 @@ fi
 mkdir -p "$HOME/ctf/.config/nvim" \
          "$HOME/ctf/.mozilla" \
          "$HOME/ctf/.java" \
-         "$HOME/ctf/.local/share/containers" \
-         "$HOME/ctf/.run/podman" \
          "$HOME/ctf/workspace"
 
 cp "$1" "$HOME/ctf/.bash_aliases"
 cp "$2" "$HOME/ctf/.config/nvim/init.lua"
 
-chmod 700 "$HOME/ctf/.run/podman"
 chmod 700 "$HOME/ctf/.bash_aliases"
 chmod 700 "$HOME/ctf/.config/nvim/init.lua"
 
@@ -83,6 +80,9 @@ fi
 BASHRC
 fi
 
+FHS_ENV="$3"
+shift
+
 exec "$FIREJAIL_BIN" \
   --noprofile \
   --private="$HOME/ctf" \
@@ -93,4 +93,4 @@ exec "$FIREJAIL_BIN" \
   --env=WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
   --env=_JAVA_AWT_WM_NONREPARENTING=1 \
   --env=INPUTRC="$HOME/.inputrc" \
-  bash -i
+  "$FHS_ENV"
