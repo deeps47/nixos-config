@@ -33,7 +33,10 @@
     ];
   };
 
+  programs.firejail.enable = true;
+
   services.hardware.openrgb.enable = true;
+  hardware.nvidia-container-toolkit.enable = true;
 
   nixpkgs.config.allowUnfree = true;
   hardware.graphics.enable = true;
