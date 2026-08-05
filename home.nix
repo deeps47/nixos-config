@@ -32,11 +32,6 @@ in
         . ~/nixos-dotfiles/config/aliases.sh
       fi
     '';
-    profileExtra = ''
-      if [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
-          exec start-hyprland
-      fi
-    '';
   };
 
   home.packages = with pkgs; [
