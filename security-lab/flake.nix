@@ -24,35 +24,11 @@
 
             src = ./.;
 
-            nativeBuildInputs = [
-              pkgs.makeWrapper
-            ];
-
             installPhase = ''
               mkdir -p $out/bin
 
               cp scripts/sandbox.sh $out/bin/sandbox
               chmod +x $out/bin/sandbox
-
-              wrapProgram $out/bin/sandbox \
-                --prefix PATH : ${
-                  pkgs.lib.makeBinPath [
-                    pkgs.bubblewrap
-                    pkgs.coreutils
-                    pkgs.findutils
-                    pkgs.gnugrep
-                    pkgs.gawk
-                    pkgs.util-linux
-                    pkgs.procps
-                    pkgs.dbus
-                    pkgs.wayland
-                    pkgs.libglvnd
-                    pkgs.mesa-demos
-                    pkgs.firefox
-                    pkgs.ghidra
-                    pkgs.burpsuite
-                  ]
-                }
             '';
           };
 
@@ -148,17 +124,11 @@
         in
         {
           packages = {
-            default = sandbox;
             sandbox = sandbox;
             pwn-shell = pwnFHS;
           };
 
           apps = {
-            default = {
-              type = "app";
-              program = "${sandbox}/bin/sandbox";
-            };
-
             sandbox = {
               type = "app";
               program = "${sandbox}/bin/sandbox";
@@ -171,7 +141,7 @@
             # exactly as before.
             default =
               let
-                sandboxScript = "${self.packages.x86_64-linux.sandbox}/bin/sandbox";
+                sandboxScript = "${sandbox}/bin/sandbox";
               in
               pkgs.mkShell {
                 packages = with pkgs; [
@@ -212,13 +182,6 @@
 
     in
     {
-      packages =
-        nixpkgs.lib.genAttrs systems
-          (system: (makeOutputs system).packages);
-
-      apps =
-        nixpkgs.lib.genAttrs systems
-          (system: (makeOutputs system).apps);
 
       devShells =
         nixpkgs.lib.genAttrs systems

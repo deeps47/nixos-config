@@ -7,7 +7,6 @@ if [ "$#" -eq 0 ]; then
 fi
 
 USER_ID="$(id -u)"
-GROUP_ID="$(id -g)"
 
 XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$USER_ID}"
 
@@ -38,6 +37,11 @@ mkdir -p \
 BWRAP_ARGS=(
     # Basic isolation
     --die-with-parent
+    --new-session
+    --unshare-pid  # drop this to regain fg, bg and ctrl+z
+    --unshare-ipc
+    --unshare-uts
+    --hostname sandbox
 
     # Filesystem
     --ro-bind /nix /nix
@@ -47,7 +51,7 @@ BWRAP_ARGS=(
     # proc/tmp/dev
     --proc /proc
     --tmpfs /tmp
-    --dev-bind /dev /dev
+    --dev /dev
     --dev-bind /dev/pts /dev/pts
 
     # Fresh home
