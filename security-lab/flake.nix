@@ -28,7 +28,10 @@
               mkdir -p $out/bin
 
               cp scripts/sandbox.sh $out/bin/sandbox
+              cp scripts/burpsuite-sandbox.sh $out/bin/burpsuite-sandbox.sh
+
               chmod +x $out/bin/sandbox
+              chmod +x $out/bin/burpsuite-sandbox.sh
             '';
           };
 
@@ -86,7 +89,8 @@
             extraPreBwrapCmds = ''
                 mkdir -p "$HOME/ctf"
 
-              cat > /tmp/pwn-shell.bashrc <<'BASHRC'
+              SANDBOX_BASHRC="$(mktemp)"
+              cat > "$SANDBOX_BASHRC" <<'EOF'
               export TERM=xterm-256color
 
               PS1='\[\e[38;5;208m\](pwn)\[\e[0m\][\[\e[1;32m\]\u@\h\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]]\$ '
@@ -115,7 +119,7 @@
               "$HOME/ctf"
 
               "--ro-bind"
-              "/tmp/pwn-shell.bashrc"
+              "$SANDBOX_BASHRC"
               "$HOME/.bashrc"
             ];
             runScript = "bash -i";
@@ -153,6 +157,15 @@
                   firefox
                   ghidra
                   burpsuite
+                  slirp4netns
+                  openvpn
+                  libcap
+                  pstree
+                  vim
+                  iproute2
+                  libuuid
+                  busybox
+                  strace
                 ];
 
                 shellHook = ''
