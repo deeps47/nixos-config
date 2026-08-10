@@ -26,7 +26,7 @@ fi
 
 # The CTF directory is bind-mounted into the outer sandbox, so the generated
 # launcher remains available after the outer bwrap starts.
-BURP_DIR="$HOST_CTF_DIR/.burpsuite-sandbox"
+BURP_DIR="$HOST_PERSIST_DIR/burpsuite-launcher"
 BURP_MODIFIED="$BURP_DIR/burpsuite"
 
 mkdir -p "$BURP_DIR"

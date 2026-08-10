@@ -26,10 +26,11 @@ mkdir -p "$HOST_CTF_DIR"
 # own directory tree that only the sandbox ever reads/writes, so a real
 # Firefox/BurpSuite on the host (if you have one) is never touched or
 # exposed, and the sandbox never sees real host browser/tool data either.
-HOST_PERSIST_DIR="$HOST_HOME/.ctf-sandbox-persist"
+HOST_PERSIST_DIR="$HOST_HOME/.local/share/ctf-sandbox"
 mkdir -p \
     "$HOST_PERSIST_DIR/firefox" \
     "$HOST_PERSIST_DIR/burpsuite" \
+    "$HOST_PERSIST_DIR/burpsuite-launcher" \
     "$HOST_PERSIST_DIR/java-userprefs" \
     "$HOST_PERSIST_DIR/config"
 chmod 700 "$HOST_PERSIST_DIR"
@@ -48,7 +49,6 @@ BWRAP_ARGS=(
     --ro-bind /nix /nix
     --tmpfs /etc
     --ro-bind /usr /usr
-    --dir /root # for ghidra
 
     # proc/tmp/dev - minimal synthetic /dev (null,zero,full,random,urandom,
     # tty) instead of exposing the entire host /dev tree. GPU device nodes
@@ -67,7 +67,7 @@ BWRAP_ARGS=(
     # Persistent GUI app config/state (Firefox profile, Burp settings)
     --bind "$HOST_PERSIST_DIR/firefox" "$HOST_HOME/.mozilla"
     --bind "$HOST_PERSIST_DIR/burpsuite" "$HOST_HOME/.BurpSuite"
---bind "$HOST_PERSIST_DIR/burpsuite" /root/.BurpSuite
+    --bind "$HOST_PERSIST_DIR/burpsuite-launcher" "$HOST_HOME/.local/share/ctf-sandbox/burpsuite-launcher"
     --bind "$HOST_PERSIST_DIR/java-userprefs" "$HOST_HOME/.java/.userPrefs"
     --bind "$HOST_PERSIST_DIR/config" "$HOST_HOME/.config"
 
@@ -108,6 +108,37 @@ BWRAP_ARGS=(
 )
 
 #
+# Sandbox-local identity database.
+#
+# UID 0 inside the user namespace maps to the host user, so applications
+# legitimately see uid=0. Make NSS agree with our HOME instead of telling
+# applications that uid 0 lives in /root.
+#
+
+SANDBOX_PASSWD="$(mktemp)"
+SANDBOX_GROUP="$(mktemp)"
+
+awk -F: -v OFS=: -v home="$HOST_HOME" '
+    $1 == "root" {
+        $5 = "CTF Sandbox root"
+        $6 = home
+    }
+    { print }
+' /etc/passwd > "$SANDBOX_PASSWD"
+
+cp /etc/group "$SANDBOX_GROUP"
+
+exec {PASSWD_FD}<"$SANDBOX_PASSWD"
+exec {GROUP_FD}<"$SANDBOX_GROUP"
+
+rm -f "$SANDBOX_PASSWD" "$SANDBOX_GROUP"
+
+BWRAP_ARGS+=(
+    --file "$PASSWD_FD" /etc/passwd
+    --file "$GROUP_FD" /etc/group
+)
+
+#
 # Curated /etc files, read-only, on top of the fresh tmpfs /etc above.
 # Wholesale-binding host /etc broke the writable /etc/hosts override on
 # NixOS (its /etc is a managed symlink tree bwrap couldn't punch a bind
@@ -124,9 +155,7 @@ for etc_path in \
     ssl \
     static \
     nix \
-    fonts \
-    passwd \
-    group
+    fonts
 do
     if [ -e "/etc/$etc_path" ]; then
         BWRAP_ARGS+=(
